@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
+import DepartmentSelection from "./DepartmentSelection";
 
 interface HomeProps {
   setLoginAlert: React.Dispatch<React.SetStateAction<string>>;
@@ -60,6 +61,7 @@ const Home = (props: HomeProps) => {
           experimentalFeatures={{ newEditingApi: true }}
         />
       </Box>
+      <DepartmentSelection />
     </>
   );
 };
