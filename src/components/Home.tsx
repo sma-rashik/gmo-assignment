@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import React from "react";
 
 interface HomeProps {
   setLoginAlert: React.Dispatch<React.SetStateAction<string>>;
@@ -26,7 +27,7 @@ const Home = (props: HomeProps) => {
       navigate("/");
     } else {
       const api = async () => {
-        const data = await fetch("https://jsonplaceholder.typicode.com/users", {
+        const data = await fetch("https://jsonplaceholder.typicode.com/posts", {
           method: "GET",
         });
         const jsonData = await data.json();
@@ -39,22 +40,20 @@ const Home = (props: HomeProps) => {
 
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
-    { field: "name", headerName: "NAME", width: 200 },
-    { field: "username", headerName: "USERNAME", width: 200 },
-    { field: "email", headerName: "EMAIL", width: 200 },
-    { field: "website", headerName: "WEBSITE", width: 200 },
-    { field: "phone", headerName: "PHONE", width: 200 },
+    { field: "title", headerName: "TITLE", width: 300 },
+    { field: "body", headerName: "BODY", width: 700 },
   ];
+
   return (
     <>
-      <Box sx={{ height: 400, width: "100%" }}>
+      <Box sx={{ height: 700, width: "100%" }}>
         <Typography variant="h5" component="h5">
           Hey, {user?.name}
         </Typography>
         <DataGrid
           rows={result}
           columns={columns}
-          pageSize={5}
+          pageSize={10}
           rowsPerPageOptions={[5]}
           checkboxSelection
           disableSelectionOnClick
