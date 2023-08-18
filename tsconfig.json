@@ -14,7 +14,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": "./src", // Set the base directory for module resolution
+    "paths": {
+      "@components/*": ["components/*"] // Add path aliases for easier imports
+    }
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

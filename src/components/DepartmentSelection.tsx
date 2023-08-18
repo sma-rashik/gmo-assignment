@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import { FaCheckSquare, FaMinusSquare } from "react-icons/fa";
 import {
-  Box,
   Checkbox,
   Collapse,
   List,
@@ -59,37 +59,69 @@ const DepartmentSelection: React.FC = () => {
     }
   };
 
-  const isDeptChecked = (dept: string) =>
-    selected.includes(dept)
-      ? departmentData
-          .find((d) => d.department === dept)
-          ?.sub_departments.every((subDept) => selected.includes(subDept))
-        ? true
-        : "indeterminate"
-      : false;
+  const isDeptChecked = (dept: string) => {
+    const subDepartments = departmentData.find(
+      (d) => d.department === dept
+    )?.sub_departments;
+
+    if (!subDepartments) {
+      return selected.includes(dept);
+    }
+
+    const allSubDepartmentsSelected = subDepartments.every((subDept) =>
+      selected.includes(subDept)
+    );
+
+    if (allSubDepartmentsSelected) {
+      return true;
+    } else if (subDepartments.some((subDept) => selected.includes(subDept))) {
+      return "indeterminate";
+    } else {
+      return false;
+    }
+  };
 
   const isSubDeptChecked = (dept: string, subDept: string) =>
     selected.includes(subDept);
 
   return (
     <div>
-      <Typography variant="h5" component="h5">
-        Select Departments and Sub-Departments
-      </Typography>
+      <div
+        style={{
+          marginTop: "10px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Typography variant="h5" component="h5">
+          Select Departments and Sub-Departments
+        </Typography>
+      </div>
       <List>
         {departmentData.map((dept) => {
           const deptChecked = isDeptChecked(dept.department);
           const isDeptExpanded = expanded.includes(dept.department);
+          const subDepartments = departmentData.find(
+            (d) => d.department === dept.department
+          )?.sub_departments;
 
           return (
-            <React.Fragment key={dept.department}>
+            <div key={dept.department}>
               <ListItem button onClick={() => handleExpand(dept.department)}>
-                <Checkbox
-                  checked={deptChecked === true}
-                  indeterminate={deptChecked === "indeterminate"}
-                  onChange={() => handleSelect(dept.department, "")}
-                />
+                {isDeptExpanded ? ( // Render minus icon if department is expanded
+                  <FaMinusSquare />
+                ) : (
+                  <Checkbox
+                    checked={deptChecked === true}
+                    indeterminate={deptChecked === "indeterminate"}
+                    onChange={() => handleSelect(dept.department, "")}
+                  />
+                )}
                 <ListItemText primary={dept.department} />
+                {!subDepartments && selected.includes(dept.department) && (
+                  <FaCheckSquare />
+                )}
               </ListItem>
 
               <Collapse in={isDeptExpanded} timeout="auto">
@@ -110,7 +142,7 @@ const DepartmentSelection: React.FC = () => {
                   ))}
                 </List>
               </Collapse>
-            </React.Fragment>
+            </div>
           );
         })}
       </List>

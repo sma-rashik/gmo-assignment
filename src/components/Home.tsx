@@ -47,21 +47,22 @@ const Home = (props: HomeProps) => {
 
   return (
     <>
-      <Box sx={{ height: 700, width: "100%" }}>
-        <Typography variant="h5" component="h5">
-          Hey, {user?.name}
-        </Typography>
-        <DataGrid
-          rows={result}
-          columns={columns}
-          pageSize={10}
-          rowsPerPageOptions={[5]}
-          checkboxSelection
-          disableSelectionOnClick
-          experimentalFeatures={{ newEditingApi: true }}
-        />
-      </Box>
-      <DepartmentSelection />
+      <div>
+        <Box sx={{ height: 600, width: "100%" }}>
+          <Typography variant="h5" component="h5">
+            Hey, {user?.name}
+          </Typography>
+          <DataGrid
+            rows={result}
+            columns={columns}
+            pageSize={10}
+            rowsPerPageOptions={[5]}
+            disableSelectionOnClick
+            experimentalFeatures={{ newEditingApi: true }}
+          />
+          <DepartmentSelection />
+        </Box>
+      </div>
     </>
   );
 };
